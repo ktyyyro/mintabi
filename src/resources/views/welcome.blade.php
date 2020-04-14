@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>mintabi</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
@@ -80,10 +80,17 @@
             @endif
 
             <div class="content">
-                <div class="title m-b-md">
-                    mintabi
+                <div class="row">
+                    <div class="col-md-4">
+                        <p>みんなで旅の計画を立てる</p>
+                        <div class="title m-b-md">
+                            mintabi
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <img src="" alt="あの画像" srcset="">
+                    </div>
                 </div>
-
             </div>
         </div>
     </body>
