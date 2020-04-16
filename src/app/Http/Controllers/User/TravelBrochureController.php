@@ -26,4 +26,29 @@ class TravelBrochureController extends Controller
     {
         return view('travel_brochure.create');
     }
+
+    // public function store()
+    // {
+    //     return view('travel_brochure.create');
+    // }
+
+    // public function edit()
+    // {
+    //     return view('travel_brochure.create');
+    // }
+
+    // public function update()
+    // {
+    //     return view('travel_brochure.create');
+    // }
+
+    // public function destroy()
+    // {
+    //     return view('travel_brochure.create');
+    // }
+
+    // public function show()
+    // {
+    //     return view('travel_brochure.create');
+    // }
 }
