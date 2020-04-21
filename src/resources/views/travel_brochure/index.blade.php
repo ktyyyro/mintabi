@@ -1,13 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-    しおり一覧画面です。
-</body>
-</html>
-
+@extends('layouts.app')
+@section('title', 'しおり一覧画面')
+@section('content')
+@include('layouts.nav')
+    @isset($books)
+        @foreach ($books as $book)
+            <card-component
+                href='/mypage'
+                title="{{ $book->destination }}"
+                remark="{{ $book->remark }}"
+            ></card-component>
+        @endforeach
+    @endisset
+@endsection
