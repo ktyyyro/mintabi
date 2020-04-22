@@ -23,7 +23,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::namespace('User')->group(function () {
     Route::get('/mypage', 'MypageController@index')->name('mypage');
 
-    Route::resource('/travel_brochure', 'TravelBrochureController')->except(['update', 'destroy']);
+    Route::resource('/travel_brochure', 'TravelBrochureController')->except(['update', 'destroy', 'index']);
 
     // // しおり作成画面へ遷移
     // Route::prefix('travel_brochure')->name('travel_brochure.')->group(function () {

@@ -36,9 +36,6 @@
                                 <a class="nav-link dropdown-toggle" href="{{ route('mypage') }}">
                                     マイページ<span class="caret"></span>
                                 </a>
-                                <a class="nav-link dropdown-toggle" href="{{ route('travel_brochure.index') }}">
-                                    しおり一覧<span class="caret"></span>
-                                </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('logout') }}"

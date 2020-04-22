@@ -4,11 +4,25 @@ namespace App\Http\Controllers\User;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\TravelBrochure;
+use Illuminate\Support\Facades\Auth;
 
 class MypageController extends Controller
 {
-    public function index()
+
+    public function __construct()
     {
-        return view('users.index');
+        $this->middleware('auth');
+    }
+
+    public function index(TravelBrochure $travel_brochure)
+    {
+        // 自身の作成したしおりを取得する
+        $books = $travel_brochure::where('user_id', Auth::id())
+            ->get();
+
+        return view('users.index', [
+            'books' => $books
+        ]);
     }
 }
