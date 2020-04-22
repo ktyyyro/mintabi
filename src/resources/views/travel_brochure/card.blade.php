@@ -1,5 +1,5 @@
 <!-- Card -->
-<div class="card mt-3">
+<div class="card mb-3">
   <div class="card-body d-flex flex-row">
   <div class="card-body pt-0">
     <h3 class="h4 card-title">
