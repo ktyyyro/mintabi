@@ -17,14 +17,9 @@ class TravelBrochureController extends Controller
      */
     public function index()
     {
-        // $user = User::where('name', $name)->first()
-        //     ->load(['articles.user', 'articles.likes', 'articles.tags']);
-
         // 自身の作成したしおりを取得する
         $travel_brochure = TravelBrochure::where('user_id', Auth::id())
             ->get();
-
-        // dd($travel_brochure);
 
         return view('travel_brochure.index', [
             'books' => $travel_brochure
@@ -66,6 +61,19 @@ class TravelBrochureController extends Controller
         return view('travel_brochure.create');
     }
 
+    /**
+     * 詳細画面
+     *
+     * @return void
+     */
+    public function show(TravelBrochure $travel_brochure)
+    {
+        return view('travel_brochure.show', [
+            'travel_brochure' => $travel_brochure
+        ]);
+    }
+
+
     // public function edit()
     // {
     //     return view('travel_brochure.create');
@@ -81,8 +89,4 @@ class TravelBrochureController extends Controller
     //     return view('travel_brochure.create');
     // }
 
-    // public function show()
-    // {
-    //     return view('travel_brochure.create');
-    // }
 }

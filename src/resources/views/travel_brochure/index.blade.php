@@ -4,11 +4,9 @@
 @include('layouts.nav')
     @isset($books)
         @foreach ($books as $book)
-            <card-component
-                href='/mypage'
-                title="{{ $book->destination }}"
-                remark="{{ $book->remark }}"
-            ></card-component>
+            <div class="container">
+                @include('travel_brochure.card')
+            </div>
         @endforeach
     @endisset
 @endsection
