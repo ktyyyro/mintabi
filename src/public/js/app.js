@@ -1932,6 +1932,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
+    id: String,
     title: String,
     remark: String
   }
@@ -40116,6 +40117,8 @@ var render = function() {
           height: "194"
         }
       }),
+      _vm._v(" "),
+      _c("v-btn", { attrs: { color: "orange", text: "" } }, [_vm._v("詳細")]),
       _vm._v(" "),
       _c("v-card-text", [_vm._v(_vm._s(_vm.remark))]),
       _vm._v(" "),
