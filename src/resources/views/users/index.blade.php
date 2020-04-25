@@ -1,3 +1,4 @@
+{{-- TODO:ログイン時にusers.showへの遷移が正常にできたらこのファイルごと削除する。問題としては --}}
 @extends('layouts.app')
 
 @section('content')
@@ -6,26 +7,38 @@
     <div class="row">
         <div class="col-md-4">
             <div class="card">
-
                 <div class="card-body">
-                    <div>
-                        <a href="{{ route('travel_brochure.create') }}">しおり作成</a>
-                    </div>
-                    <div>
-                        <a href="">友達検索</a>
-                    </div>
+                    <form action="{{ route('user.search') }}" method="post">
+                        @csrf
+                        <div>
+                            <p>ユーザーID</p>
+                            <input class="form-control" type="text" placeholder="user name" name="name">
+                        </div>
+                        <button class="btn btn-primary">検索</button>
+                    </form>
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
-            @isset($books)
-                @foreach ($books as $book)
-                    @include('travel_brochure.card')
-                @endforeach
-            @endisset
+        @isset($users)
+        <div class="container">
+            <ul class="list-group">
+            @foreach($users as $user)
+                <li class="list-group-item">
+                    {{ $user->name }}
+                    @if($user->name !== Auth::user()->name)
+                        <div>
+                            <follow-button
+                                :initial-is-followed-by='@json($user->isFollowedBy(Auth::user()))'
+                                endpoint="{{ route('user.follow', ['name' => $user->name]) }}"
+                            ></follow-button>
+                        </div>
+                    @endif
+                    {{-- <button class="btn btn-outline-primary pull-right">フォローする</button> --}}
+                </li>
+            @endforeach
+            </ul>
         </div>
-        <div class="col-md-4">
-        </div>
+        @endisset
     </div>
 </div>
 @endsection

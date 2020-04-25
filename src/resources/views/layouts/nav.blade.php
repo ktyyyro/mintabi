@@ -32,12 +32,7 @@
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
-                                {{-- 仮のルーティング --}}
-                                <a class="nav-link dropdown-toggle" href="{{ route('mypage') }}">
-                                    マイページ<span class="caret"></span>
-                                </a>
-
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <div>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -48,6 +43,11 @@
                                         @csrf
                                     </form>
                                 </div>
+
+                                {{-- 仮のルーティング --}}
+                                <a class="nav-link dropdown-toggle" href="{{ route('mypage') }}">
+                                    マイページ<span class="caret"></span>
+                                </a>
                             </li>
                         @endguest
                     </ul>

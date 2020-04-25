@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Authenticatable
 {
@@ -36,4 +37,50 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+    /**
+     * 自身「を」フォローしているユーザーを取得
+     *
+     * @return BelongsToMany
+     */
+    public function followings(): BelongsToMany
+    {
+        return $this->belongsToMany('\App\User', 'follows', 'follower_id', 'followee_id')->withTimestamps();
+    }
+
+    /**
+     * 自身「が」フォローしているユーザーを取得
+     *
+     * @return BelongsToMany
+     */
+    public function followers(): BelongsToMany
+    {
+        return $this->belongsToMany('\App\User', 'follows', 'followee_id', 'follower_id')->withTimestamps();
+    }
+
+    /**
+     * 自身(モデル)が別のユーザー(パラメータ)をフォローしているかの判定
+     *
+     * @param User $user
+     * @return boolean
+     */
+    public function isFollowedBy(User $user): bool
+    {
+        return $user
+            ? (bool) $this->followers->where('id', $user->id)->count()
+            : false;
+    }
+
+    /**
+     * ユーザー検索機能
+     *
+     * @param [type] $name
+     * @return void
+     */
+    public function search($name)
+    {
+        return self::where('name', 'LIKE', $name . '%')
+            ->get();
+    }
 }
