@@ -38,7 +38,8 @@ class UserController extends Controller
     public function show(TravelBrochure $travel_brochure, $id)
     {
         $books = $travel_brochure::where('user_id', $id)
-            ->get();
+            ->get()
+            ->sortByDesc('created_at');
 
         return view('users.show', [
             'books' => $books

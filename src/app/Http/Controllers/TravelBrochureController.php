@@ -49,13 +49,10 @@ class TravelBrochureController extends Controller
      */
     public function store(TravelBrochureRequest $request, TravelBrochure $travel_brochure)
     {
-        // dd($request->user()->id);
         $travel_brochure->fill($request->all());
         $travel_brochure->user_id = $request->user()->id;
         if ($travel_brochure->save()) {
-            return redirect()->route('travel_brochure.index');
-        } else {
-            dd(2);
+            return redirect()->route('user.show', Auth::id());
         };
 
         return view('travel_brochure.create');
