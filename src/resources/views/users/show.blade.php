@@ -4,10 +4,8 @@
 @include('layouts.nav')
 <div class="container">
     <div class="row">
-        <div>
-            <a href="{{ route('user.index') }}">友達検索</a>
+        <div class="col-md-4">
         </div>
-
         <div class="col-md-4">
             @isset($books)
                 @foreach ($books as $book)

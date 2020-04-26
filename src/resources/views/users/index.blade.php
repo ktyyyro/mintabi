@@ -1,11 +1,10 @@
-{{-- TODO:ログイン時にusers.showへの遷移が正常にできたらこのファイルごと削除する。問題としては --}}
 @extends('layouts.app')
 
 @section('content')
 @include('layouts.nav')
 <div class="container">
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
                     <form action="{{ route('user.search') }}" method="post">
