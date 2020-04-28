@@ -26,7 +26,7 @@ class UserController extends Controller
     public function search(Request $request, User $user)
     {
         return view('users.index', [
-            'users' => $user->search($request->name)
+            'users' => $user->search($request->id)
         ]);
     }
 
@@ -37,12 +37,15 @@ class UserController extends Controller
      */
     public function show(TravelBrochure $travel_brochure, $id)
     {
-        $books = $travel_brochure::where('user_id', $id)
+        $user = User::seek($id);
+
+        $books = $travel_brochure::where('user_id', $user->id)
             ->get()
             ->sortByDesc('created_at');
 
         return view('users.show', [
-            'books' => $books
+            'books' => $books,
+            'user' => $user
         ]);
     }
 
@@ -51,8 +54,10 @@ class UserController extends Controller
      *
      * @return void
      */
-    public function edit()
+    public function edit($id)
     {
+        $user = User::where('login_id', $id)->first();
+        return view('users.edit', ['user' => $user]);
     }
 
     /**
@@ -60,8 +65,32 @@ class UserController extends Controller
      *
      * @return void
      */
-    public function update()
+    public function update(Request $request)
     {
+        $data = $request->only([
+            'name',
+            'coments',
+            'icon_data'
+        ]);
+        $login_id = \Auth::user()->login_id;
+
+        if (isset($data['icon_data'])) {
+            $dir = 'images/users/' . $login_id;
+            $imageName = date('Y-m-d_H-i-s') . $data['icon_data']->getClientOriginalName();
+
+            // 画像アップロード処理
+            \Storage::putFileAs(
+                'public/' . $dir,
+                $data['icon_data'],
+                $imageName
+            );
+            $data['icon_image_paths'] = $dir . '/' . $imageName;
+        }
+
+        // 更新処理 TODO:これもモデルをこの関数内で受け取った方が良いのでは？
+        User::where('login_id', $login_id)->first()->update($data);
+
+        return redirect()->route('user.show', $login_id);
     }
 
     /**

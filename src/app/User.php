@@ -17,7 +17,12 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'login_id',
+        'name',
+        'coments',
+        'icon_image_paths',
+        'email',
+        'password',
     ];
 
     /**
@@ -26,7 +31,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
 
     /**
@@ -78,9 +84,20 @@ class User extends Authenticatable
      * @param [type] $name
      * @return void
      */
-    public function search($name)
+    public function search($login_id)
     {
-        return self::where('name', 'LIKE', $name . '%')
+        return self::where('login_id', 'LIKE', $login_id . '%')
             ->get();
+    }
+
+    /**
+     * ログインIDで検索する
+     *
+     * @param [type] $login_id
+     * @return void
+     */
+    public static function seek($login_id)
+    {
+        return self::where('login_id', $login_id)->first();
     }
 }
