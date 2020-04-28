@@ -11,7 +11,7 @@
                         @csrf
                         <div>
                             <p>ユーザーID</p>
-                            <input class="form-control" type="text" placeholder="user name" name="name">
+                            <input class="form-control" type="text" placeholder="user id" name="login_id">
                         </div>
                         <button class="btn btn-primary">検索</button>
                     </form>

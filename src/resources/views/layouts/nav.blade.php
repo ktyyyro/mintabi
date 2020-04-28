@@ -29,7 +29,7 @@
                                 </a>
                             </li>
                             <li class="nav-item dropdown">
-                                <a href="{{ route('user.show', Auth::id()) }}">マイページ</a>
+                                <a href="{{ route('user.show', Auth::user()->login_id) }}">マイページ</a>
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="dropdown-item" href="{{ route('logout') }}"
