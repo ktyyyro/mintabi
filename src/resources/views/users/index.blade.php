@@ -23,16 +23,15 @@
             <ul class="list-group">
             @foreach($users as $user)
                 <li class="list-group-item">
-                    {{ $user->name }}
-                    @if($user->name !== Auth::user()->name)
+                    <a href="{{ route('user.show', $user->login_id) }}">{{ $user->name }}</a>
+                    @if($user->login_id !== Auth::user()->login_id)
                         <div>
                             <follow-button
                                 :initial-is-followed-by='@json($user->isFollowedBy(Auth::user()))'
-                                endpoint="{{ route('user.follow', ['name' => $user->name]) }}"
+                                endpoint="{{ route('user.follow', ['login_id' => $user->login_id]) }}"
                             ></follow-button>
                         </div>
                     @endif
-                    {{-- <button class="btn btn-outline-primary pull-right">フォローする</button> --}}
                 </li>
             @endforeach
             </ul>
