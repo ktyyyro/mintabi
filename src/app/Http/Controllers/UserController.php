@@ -26,7 +26,7 @@ class UserController extends Controller
     public function search(Request $request, User $user)
     {
         return view('users.index', [
-            'users' => $user->search($request->id)
+            'users' => $user->search($request->login_id)
         ]);
     }
 
@@ -100,9 +100,9 @@ class UserController extends Controller
      * @param string $name
      * @return void
      */
-    public function follow(Request $request, string $name)
+    public function follow(Request $request, string $login_id)
     {
-        $user = User::where('name', $name)->first();
+        $user = User::where('login_id', $login_id)->first();
 
         if ($user->id === $request->user()->id) {
             return abort('404', 'Cannot follow yourself.');
@@ -111,7 +111,7 @@ class UserController extends Controller
         $request->user()->followings()->detach($user);
         $request->user()->followings()->attach($user);
 
-        return ['name' => $name];
+        return ['login_id' => $login_id];
     }
 
     /**
@@ -121,9 +121,9 @@ class UserController extends Controller
      * @param string $name
      * @return void
      */
-    public function unfollow(Request $request, string $name)
+    public function unfollow(Request $request, string $login_id)
     {
-        $user = User::where('name', $name)->first();
+        $user = User::where('login_id', $login_id)->first();
 
         if ($user->id === $request->user()->id) {
             return abort('404', 'Cannot follow yourself.');
@@ -131,6 +131,36 @@ class UserController extends Controller
 
         $request->user()->followings()->detach($user);
 
-        return ['name' => $name];
+        return ['login_id' => $login_id];
+    }
+
+    /**
+     * フォローリスト表示
+     *
+     * @param string $login_id
+     * @return void
+     */
+    public function followingList(string $login_id, User $user)
+    {
+        $followings = $user->where('login_id', $login_id)
+            ->first()
+            ->followings;
+
+        return view('users.list', ['list' => $followings]);
+    }
+
+    /**
+     * フォロワーリスト表示
+     *
+     * @param string $login_id
+     * @return void
+     */
+    public function followersList(string $login_id, User $user)
+    {
+        $followers = $user->where('login_id', $login_id)
+            ->first()
+            ->followers;
+
+        return view('users.list', ['list' => $followers]);
     }
 }

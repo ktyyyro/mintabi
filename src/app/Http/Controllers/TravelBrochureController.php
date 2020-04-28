@@ -52,7 +52,7 @@ class TravelBrochureController extends Controller
         $travel_brochure->fill($request->all());
         $travel_brochure->user_id = $request->user()->id;
         if ($travel_brochure->save()) {
-            return redirect()->route('user.show', Auth::id());
+            return redirect()->route('user.show', Auth::user()->login_id);
         };
 
         return view('travel_brochure.create');
