@@ -2,20 +2,42 @@
 
 @section('content')
 @include('layouts.nav')
-{{-- <nav-bar></nav-bar> --}}
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+    <div class="row">
+        <div class="col-md-12">
             <div class="card">
-                <div class="card-header">{{ Auth::user()->name }}</div>
-
                 <div class="card-body">
-                    <a href="{{ route('travel_brochure.create') }}">しおり作成</a>
-                    <a href="">友達検索</a>
-                    <a href="{{ route('travel_brochure.index') }}">しおり一覧</a>
+                    <form action="{{ route('user.search') }}" method="post">
+                        @csrf
+                        <div>
+                            <p>ユーザーID</p>
+                            <input class="form-control" type="text" placeholder="user id" name="login_id">
+                        </div>
+                        <button class="btn btn-primary">検索</button>
+                    </form>
                 </div>
             </div>
         </div>
+        @isset($users)
+        <div class="container">
+            <ul class="list-group">
+            @foreach($users as $user)
+                <li class="list-group-item">
+                    {{ $user->name }}
+                    @if($user->name !== Auth::user()->name)
+                        <div>
+                            <follow-button
+                                :initial-is-followed-by='@json($user->isFollowedBy(Auth::user()))'
+                                endpoint="{{ route('user.follow', ['name' => $user->name]) }}"
+                            ></follow-button>
+                        </div>
+                    @endif
+                    {{-- <button class="btn btn-outline-primary pull-right">フォローする</button> --}}
+                </li>
+            @endforeach
+            </ul>
+        </div>
+        @endisset
     </div>
 </div>
 @endsection
