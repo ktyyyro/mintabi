@@ -46,7 +46,7 @@ class LoginController extends Controller
      */
     public function redirectTo()
     {
-        return '/user/' . Auth::id();
+        return '/user/' . Auth::user()->login_id;
     }
 
     /**
