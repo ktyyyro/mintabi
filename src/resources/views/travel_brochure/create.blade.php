@@ -4,12 +4,13 @@
 @section('content')
 @include('layouts.nav')
 <div class="container">
-    <form action="{{ route('travel_brochure.store') }}" method="POST">
+    <form action="{{ route('travel_brochure.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="card">
             <div class="card-body">
                 <p>行き先</p>
                 <input type="text" class="form-control" name="destination">
+                <button type="button" class="btn btn-default">マップから選択する</button>
                 <p>日付</p>
                 <div>
                     <select class="custom-select" name="date_Y" id="">
@@ -30,9 +31,14 @@
                 </div>
                 <p>持ち物</p>
                 <input class="form-control" type="text" name="travel_items">
+                <p>しおりトップ画像</p>
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" name="image">
+                    <label class="custom-file-label" for="image" data-browse="参照"></label>
+                </div>
                 <p>備考</p>
                 <textarea class="form-control" name="remark" id="" cols="30" rows="10"></textarea>
-                <button class="btn btn-default">作成内容確認</button>
+                <button class="btn btn-default">しおり作成</button>
             </div>
         </div>
     </form>

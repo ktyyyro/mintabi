@@ -5,6 +5,11 @@
     <h3 class="h4 card-title">
         <a href="{{ route('travel_brochure.show',$book->id) }}">{{ $book->destination }}</a>
     </h3>
+    <div>
+        @isset($book->image_paths)
+            <img src="{{ asset('/storage/'.$book->image_paths) }}" style="height: 20%; width:100%;">
+        @endisset
+    </div>
     <div class="card-text">
         <p class="card-text">{{ $book->remark }}</p>
     </div>

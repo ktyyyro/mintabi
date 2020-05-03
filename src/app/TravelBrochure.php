@@ -13,6 +13,7 @@ class TravelBrochure extends Model
         'memberlist_id',
         'execution_date',
         'travel_items',
+        'image_paths',
         'remark',
     ];
 
