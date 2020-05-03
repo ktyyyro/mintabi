@@ -11,6 +11,14 @@
                     <h3 class="h4 card-title">
                         <p>{{ $travel_brochure->destination }}</p>
                     </h3>
+                    <div>
+                        @isset($travel_brochure->image_paths)
+                            <img src="{{ asset('/storage/'.$travel_brochure->image_paths) }}" style="height: 20%; width:100%;">
+                        @endisset
+                    </div>
+                    <div>
+                        <p>{{ $travel_brochure->travel_items }}</p>
+                    </div>
                 <div class="card-text">
                     <p class="card-text">{{ $travel_brochure->remark }}</p>
                 </div>

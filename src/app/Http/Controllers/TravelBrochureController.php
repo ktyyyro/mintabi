@@ -7,9 +7,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\TravelBrochureRequest;
 use App\TravelBrochure;
 use Illuminate\Support\Facades\Auth;
+use App\Traits\FileUpload;
 
 class TravelBrochureController extends Controller
 {
+    use FileUpload;
+
     /**
      * 一覧画面
      *
@@ -43,19 +46,35 @@ class TravelBrochureController extends Controller
     }
 
     /**
-     * 登録処理
+     * 新規登録処理
      *
      * @return void
      */
     public function store(TravelBrochureRequest $request, TravelBrochure $travel_brochure)
     {
-        $travel_brochure->fill($request->all());
-        $travel_brochure->user_id = $request->user()->id;
+
+        $data = $request->except([
+            '_method',
+            '_token'
+        ]);
+
+        $fileData = $request->file('image');
+        // ファイルのアップロードがされているか判定
+        if (isset($fileData)) {
+            // テーブルの最終番号取得
+            $lastNo = $travel_brochure->orderByDesc('id')->first()->id;
+            $dir = 'images/travel_brochure/' . $lastNo;
+
+            // 画像アップロード処理
+            $data['image_paths'] = $this->imagesUpload($fileData, $dir);
+        }
+
+        $travel_brochure->fill($data);
+        $travel_brochure->user_id = Auth::id();
+
         if ($travel_brochure->save()) {
             return redirect()->route('user.show', Auth::user()->login_id);
         };
-
-        return view('travel_brochure.create');
     }
 
     /**
@@ -71,15 +90,16 @@ class TravelBrochureController extends Controller
     }
 
 
-    // public function edit()
-    // {
-    //     return view('travel_brochure.create');
-    // }
+    public function edit()
+    {
+        return view('travel_brochure.edit');
+    }
 
-    // public function update()
-    // {
-    //     return view('travel_brochure.create');
-    // }
+    public function update()
+    {
+        // TODO:　更新後は詳細ページ？マイページ？
+        return view('travel_brochure.create');
+    }
 
     // public function destroy()
     // {
