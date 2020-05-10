@@ -10,7 +10,17 @@
             <div class="card-body">
                 <p>行き先</p>
                 <input type="text" class="form-control" name="destination">
-                <button type="button" class="btn btn-default">マップから選択する</button>
+
+                <div class="form-group">
+                    <label class="control-label">参加メンバー</label>
+                    @foreach($users as $user)
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" name="members[]" id="member-check-{{ $loop->index }}" value="{{ $user->id }}">
+                            <label class="custom-control-label" for="member-check-{{ $loop->index }}">{{ $user->name }}</label>
+                        </div>
+                    @endforeach
+                </div>
+
                 <p>日付</p>
                 <div>
                     <select class="custom-select" name="date_Y" id="">

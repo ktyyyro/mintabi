@@ -8,6 +8,8 @@ use App\Http\Requests\TravelBrochureRequest;
 use App\TravelBrochure;
 use Illuminate\Support\Facades\Auth;
 use App\Traits\FileUpload;
+use App\User;
+use App\TravelMember;
 
 class TravelBrochureController extends Controller
 {
@@ -34,7 +36,7 @@ class TravelBrochureController extends Controller
      *
      * @return void
      */
-    public function create()
+    public function create(User $user)
     {
         // 日付のダミーデータ
         $date = [
@@ -42,7 +44,21 @@ class TravelBrochureController extends Controller
             'date_M' => ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
             'date_D' => ['1', '15', '30'],
         ];
-        return view('travel_brochure.create', ['date' => $date]);
+
+        // 相互フォローしているユーザー
+        $mutualFollowUsers = array();
+        $user_id = ['user_id' => Auth::id()];
+
+        $mutualFollowUsersNo = \DB::select('SELECT s1.followee_id FROM ( SELECT  follower_id, followee_id FROM  follows) s1 INNER JOIN ( SELECT  follower_id, followee_id FROM  follows) s2 ON  s1.follower_id = s2.followee_id AND s1.followee_id = s2.follower_id where s1.follower_id = :user_id', $user_id);
+
+        foreach ($mutualFollowUsersNo as $person) {
+            array_push($mutualFollowUsers, $user::find($person->followee_id));
+        }
+
+        return view('travel_brochure.create', [
+            'date' => $date,
+            'users' => $mutualFollowUsers
+        ]);
     }
 
     /**
@@ -50,9 +66,10 @@ class TravelBrochureController extends Controller
      *
      * @return void
      */
-    public function store(TravelBrochureRequest $request, TravelBrochure $travel_brochure)
+    // public function store(TravelBrochureRequest $request, TravelBrochure $travel_brochure)
+    public function store(Request $request, TravelBrochure $travel_brochure)
     {
-
+        // dd($request->members);
         $data = $request->except([
             '_method',
             '_token'
@@ -72,7 +89,16 @@ class TravelBrochureController extends Controller
         $travel_brochure->fill($data);
         $travel_brochure->user_id = Auth::id();
 
+        // しおり作成処理
         if ($travel_brochure->save()) {
+
+            // 参加メンバーの追加処理
+            if (isset($data['members'])) {
+                foreach ($data['members'] as $user) {
+                    $travel_brochure->members()->attach($travel_brochure->id, ['user_id' => $user]);
+                }
+            }
+
             return redirect()->route('user.show', Auth::user()->login_id);
         };
     }
@@ -85,7 +111,8 @@ class TravelBrochureController extends Controller
     public function show(TravelBrochure $travel_brochure)
     {
         return view('travel_brochure.show', [
-            'travel_brochure' => $travel_brochure
+            'travel_brochure' => $travel_brochure,
+            'members' => $travel_brochure->members
         ]);
     }
 

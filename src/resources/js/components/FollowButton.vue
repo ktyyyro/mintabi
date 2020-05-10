@@ -45,11 +45,6 @@ export default {
   },
   methods: {
     clickFollow() {
-      //   if (!this.authorized) {
-      //     alert("フォロー機能はログイン中のみ使用できます");
-      //     return;
-      //   }
-
       this.isFollowedBy ? this.unfollow() : this.follow();
     },
     async follow() {
