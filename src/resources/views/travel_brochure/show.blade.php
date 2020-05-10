@@ -19,6 +19,14 @@
                     <div>
                         <p>{{ $travel_brochure->travel_items }}</p>
                     </div>
+                    @if(!$members->isEmpty())
+                    <div>
+                        <p>参加メンバー</p>
+                        @foreach($members as $member)
+                            <p>{{ $member->name }}</p>
+                        @endforeach
+                    </div>
+                    @endif
                 <div class="card-text">
                     <p class="card-text">{{ $travel_brochure->remark }}</p>
                 </div>

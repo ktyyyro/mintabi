@@ -4,21 +4,21 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
-
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class TravelBrochure extends Model
 {
     protected $fillable = [
         'destination',
-        'memberlist_id',
+        'user_id',
         'execution_date',
         'travel_items',
         'image_paths',
         'remark',
     ];
 
-    public function roles()
+    public function members(): BelongsToMany
     {
-        return $this->belongsToMany('App\Role', 'role_user_table', 'user_id', 'role_id');
+        return $this->belongsToMany('App\User', 'travel_brochures_users', 'travel_brochures_id', 'user_id');
     }
 }
